@@ -92,6 +92,35 @@ final class HOTPTest extends TestCase
     /**
      * @test
      */
+    public function digitsMustNotExceedMaximum(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Digits must not exceed 10.');
+
+        HOTP::create('JDDK4U6G3BJLEZ7Y', 0, 'sha1', 11);
+    }
+
+    /**
+     * @test
+     */
+    public function maximumDigitsAreSupported(): void
+    {
+        $otp = HOTP::create('JDDK4U6G3BJLEZ7Y', 0, 'sha1', 10);
+
+        static::assertEquals(10, $otp->getDigits());
+        static::assertEquals(10, strlen($otp->at(1)));
+    }
+
+    public function digitsMustRejectExtremelyLargeValues(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        HOTP::create('JDDK4U6G3BJLEZ7Y', 0, 'sha1', 999999999999999999999);
+    }
+
+    /**
+     * @test
+     */
     public function counterIsNot1OrMore(): void
     {
         $this->expectException(InvalidArgumentException::class);
