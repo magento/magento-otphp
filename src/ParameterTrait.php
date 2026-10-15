@@ -98,11 +98,12 @@ trait ParameterTrait
     {
         $value = $this->getParameter('digits');
 
-        (is_int($value) && $value >= 1 && $value <= OTPInterface::MAX_DIGITS)
-        || throw new InvalidArgumentException(
-            'Invalid "digits" parameter.',
-            'digits',
-            $value
+        Assertion::integer($value, 'Invalid "digits" parameter.');
+        Assertion::between(
+            $value,
+            1,
+            OTPInterface::MAX_DIGITS,
+            'Invalid "digits" parameter.'
         );
 
         return $value;

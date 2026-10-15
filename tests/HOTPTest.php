@@ -111,11 +111,15 @@ final class HOTPTest extends TestCase
         static::assertEquals(10, strlen($otp->at(1)));
     }
 
+    /**
+     * @test
+     */
     public function digitsMustRejectExtremelyLargeValues(): void
     {
         $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Digits must not exceed 10.');
 
-        HOTP::create('JDDK4U6G3BJLEZ7Y', 0, 'sha1', 999999999999999999999);
+        HOTP::create('JDDK4U6G3BJLEZ7Y', 0, 'sha1', PHP_INT_MAX);
     }
 
     /**
