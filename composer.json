@@ -48,6 +48,6 @@
         }
     },
     "replace": {
-        "spomky-labs/otphp": "^10.0.x"
+        "spomky-labs/otphp": "^10.0"
     }
 }
